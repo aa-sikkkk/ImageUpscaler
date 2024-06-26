@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/52e8d6a2-8e5b-4f1f-a4df-a3a3900a5454">
+ <img width="700" height="150" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/2a8ba6a0-d59c-47eb-8a03-12245a3516d5">
 </p>
 
 ## ⚙️ Configuration
