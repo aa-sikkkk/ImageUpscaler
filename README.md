@@ -32,7 +32,7 @@ ImageUpscaler is a versatile image processing tool designed to enhance, transfor
 - **Desktop Notifications**: Send desktop notifications upon completion of image processing tasks.
 
 <p align="center">
- <img width="350" height="600" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
+ <img width="350" height="500" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
 </p>
 
 
