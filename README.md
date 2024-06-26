@@ -46,7 +46,7 @@ ImageUpscaler is a versatile image processing tool designed to enhance, transfor
 
 ## 🎟️License 
 
-This project is licensed under the [GNU Affero General Public License Version 3 (GNU AGPL v3)](https://github.com/aa-sikkkk/ImageUpscaler/blob/main/LICENSE)
+This project is licensed under the [GNU Affero General Public License Version 3 (GNU AGPL v3)](https://github.com/LICENSE.txt)
 
 ## 🦮 Contribute 
 **We are excited to have you join us in making ImageUpscaler even better! Whether you're fixing bugs, adding new features, improving documentation, or suggesting new ideas, your contributions are welcome and appreciated.**
