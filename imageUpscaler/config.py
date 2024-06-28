@@ -2,8 +2,7 @@ import json
 import logging
 import os
 
-def load_configuration(config_path):
-    default_config = {
+default_config = {
         "input_directory": ".",
         "output_directory": ".",
         "upscale_factor": 2.0,
@@ -25,6 +24,7 @@ def load_configuration(config_path):
         "compression_quality": 85,
         "preserve_metadata": True
     }
+def load_configuration(config_path):
     try:
         if os.path.exists(config_path):
             with open(config_path, 'r') as config_file:

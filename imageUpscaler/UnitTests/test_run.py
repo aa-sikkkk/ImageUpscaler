@@ -1,10 +1,15 @@
 import unittest
 from unittest.mock import patch, mock_open, MagicMock
+
+import sys
 import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) 
+
 import json
 from sympy import false, true
 from imageUpscaler.metadata import preserve_metadata
-from imageUpscaler.config import load_configuration, default_config
+from imageUpscaler.config import load_configuration
+from imageUpscaler.config import default_config
 from imageUpscaler.file_utils import load_images
 from imageUpscaler.notifications import send_notification
 from imageUpscaler.main import create_configuration, main
@@ -15,6 +20,8 @@ from imageUpscaler.banner import about
 from PIL import Image
 from imageUpscaler.banner import about
 class TestConfigFunctions(unittest.TestCase):
+
+
     
     def test_load_configuration_existing_file(self):
         config_data = {
@@ -80,7 +87,7 @@ class TestFiltersFunctions(unittest.TestCase):
         mock_img = MagicMock(spec=Image)
         mock_np_img = MagicMock(spec=np.ndarray)
         type(mock_img).np_img = mock_np_img
-        mock_np_img.shape = (100, 100, 3)
+        mock_np_img.shape = (100, 100, 3) 
 
         result = apply_vignette_filter(mock_img)
  
