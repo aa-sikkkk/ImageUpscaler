@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import patch, mock_open, MagicMock
 import os
 import json
-
 from sympy import false, true
 from imageUpscaler.metadata import preserve_metadata
 from imageUpscaler.config import load_configuration, default_config
@@ -12,6 +11,7 @@ from imageUpscaler.main import create_configuration, main
 from imageUpscaler.image_processing import *
 from imageUpscaler.filters import *
 from imageUpscaler.transformations import *
+from imageUpscaler.banner import about
 from PIL import Image
 from imageUpscaler.banner import about
 class TestConfigFunctions(unittest.TestCase):
@@ -50,8 +50,7 @@ class TestConfigFunctions(unittest.TestCase):
         with patch('builtins.open', mock_open(read_data=json.dumps(config_data))):
             loaded_config = load_configuration("imageUpscaler/config.json")
             self.assertEqual(loaded_config["input_directory"], "imageUpscaler/input_folder")
-            # Add more assertions based on your configuration structure
-
+ 
     def test_load_configuration_invalid_file(self):
         with patch('builtins.open', side_effect=FileNotFoundError):
             loaded_config = load_configuration("imageUpscaler/invalid/config.json")
@@ -61,19 +60,18 @@ class TestFileUtilsFunctions(unittest.TestCase):
 
     @patch('os.path.exists', return_value=True)
     def test_load_images_valid_images(self, mock_exists):
-        # Mocking PIL.Image.verify for testing
         mock_image = MagicMock(spec=Image)
         type(mock_image).verify = MagicMock(return_value=None)
 
         with patch('os.listdir', return_value=['image1.jpg', 'image2.png']):
-            images = load_images("/path/to/valid_directory")
+            images = load_images("imageUpscaler/input_folder/")
             self.assertEqual(len(images), 2)
-            # Add more assertions based on your expected behavior
+
 
     @patch('os.path.exists', return_value=False)
     def test_load_images_invalid_images(self, mock_exists):
         with self.assertRaises(ValueError):
-            load_images("/path/to/nonexistent_directory")
+            load_images("imageUpscaler/input_folder/")
 
 class TestFiltersFunctions(unittest.TestCase):
 
@@ -82,11 +80,10 @@ class TestFiltersFunctions(unittest.TestCase):
         mock_img = MagicMock(spec=Image)
         mock_np_img = MagicMock(spec=np.ndarray)
         type(mock_img).np_img = mock_np_img
-        mock_np_img.shape = (100, 100, 3)  # Adjust shape as per your test case
+        mock_np_img.shape = (100, 100, 3)
 
         result = apply_vignette_filter(mock_img)
-        # Add assertions for the result based on the filter's expected behavior
-
+ 
 class TestImageProcessingFunctions(unittest.TestCase):
 
     @patch.object(Image.Image, 'resize')
@@ -97,8 +94,7 @@ class TestImageProcessingFunctions(unittest.TestCase):
         upscale_image(mock_img, 2.0)
         mock_resize.assert_called_once_with((200, 200))
 
-    # Add more tests for other image processing functions as needed
-
+ 
 class TestMainScript(unittest.TestCase):
 
     @patch('os.path.exists', return_value=True)
@@ -111,7 +107,7 @@ class TestMainScript(unittest.TestCase):
 
         mock_send_notification.assert_called_once()
 
-    # Add more tests for main function based on specific scenarios
+
 
 class TestMetadataFunctions(unittest.TestCase):
 
@@ -124,7 +120,7 @@ class TestMetadataFunctions(unittest.TestCase):
         self.assertEqual(result, mock_processed_img)
         mock_info.update.assert_called_once_with(mock_original_img.info)
 
-    # Add more tests for other metadata-related functions as needed
+
 
 class TestBannerFunctions(unittest.TestCase):
 
@@ -134,21 +130,18 @@ class TestBannerFunctions(unittest.TestCase):
         expected_output = 'Your expected output for about_function'
         mock_print.assert_called_once_with(expected_output)
 
-    # Add more tests for other banner-related functions as needed
-
+ 
 class TestTransformationsFunctions(unittest.TestCase):
 
     def test_detect_faces(self):
         # Mocking a numpy array for cv2 functions
         mock_np_img = MagicMock(spec=np.ndarray)
-        type(mock_np_img).shape = (100, 100, 3)  # Adjust shape as per your test case
+        type(mock_np_img).shape = (100, 100, 3)  
 
         with patch('cv2.CascadeClassifier.detectMultiScale', return_value=[(10, 10, 20, 20)]):
             faces = detect_faces(mock_np_img)
             self.assertEqual(len(faces), 1)
-            # Add more assertions based on expected behavior
-
-    # Add more tests for other transformations functions as needed
+       
 
 if __name__ == '__main__':
     unittest.main()
