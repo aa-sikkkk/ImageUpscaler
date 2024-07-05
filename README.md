@@ -1,6 +1,5 @@
 # ImageUpscaler
 <p align="center">
- <img  src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/095015d9-722f-4cd5-a881-7d57d66a51d7">
 </p>
 
 
