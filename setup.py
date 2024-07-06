@@ -93,8 +93,8 @@ install_requires = [
 
 extras_require = {
      'realesrgan': [
-        'realesrgan @ git+https://github.com/xinntao/Real-ESRGAN.git@a4abfb2979a7bbff3f69f58f58ae324608821e27'
-    ],
+        'realesrgan', 
+    ]
 }
 
 setup(
