@@ -94,12 +94,14 @@ install_requires = [
 setup(
     name='ImageUpscaler',
     version='2.2.3',
-    packages=find_packages(where='imageUpscaler'),  # Adjusted to look in 'imageUpscaler'
-    package_dir={'': 'imageUpscaler'},  # Root package directory
+    packages=find_packages(where='imageUpscaler'),
+    package_dir={'': 'imageUpscaler'},
     include_package_data=True,
     install_requires=install_requires,
     extras_require={
-        'realesrgan': open('requirements.txt').readlines(),
+        'realesrgan': [
+            'realesrgan @ git+https://github.com/xinntao/Real-ESRGAN.git@a4abfb2979a7bbff3f69f58f58ae324608821e27'
+        ],
     },
     entry_points={
         'console_scripts': [
