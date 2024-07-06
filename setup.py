@@ -62,7 +62,7 @@ install_requires = [
     'pyreadline3==3.4.1',
     'python-dateutil==2.9.0.post0',
     'PyYAML==6.0.1',
-    'realesrgan @ git+https://github.com/xinntao/Real-ESRGAN.git@a4abfb2979a7bbff3f69f58f58ae324608821e27',
+    'realesrgan>=1.0.0',
     'referencing==0.35.1',
     'rembg==2.0.57',
     'requests==2.32.3',
@@ -88,15 +88,19 @@ install_requires = [
     'wheel==0.43.0',
     'yapf==0.40.2',
     'zipp==3.19.2',
+    
 ]
 
 setup(
     name='ImageUpscaler',
-    version='2.2.1',
+    version='2.2.3',
     packages=find_packages(where='imageUpscaler'),  # Adjusted to look in 'imageUpscaler'
     package_dir={'': 'imageUpscaler'},  # Root package directory
     include_package_data=True,
     install_requires=install_requires,
+    extras_require={
+        'realesrgan': open('requirements.txt').readlines(),
+    },
     entry_points={
         'console_scripts': [
             'imageUpscaler=run:main',
