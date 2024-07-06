@@ -9,11 +9,6 @@
 
 ImageUpscaler is a versatile image processing tool designed to enhance, transform, and manipulate images with a wide range of customizable settings. The application allows users to upscale images, adjust contrast and color, apply various filters, detect faces, and more. It also supports the preservation of metadata and format conversion!
 
-<p align="center">
- <img src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/182e139b-2582-4070-a09d-cf249aa86878">
-</p>
-
-
 ## 📷 Features
 
 - **Upscaling**: Increase the resolution of images by a specified factor.
@@ -32,9 +27,10 @@ ImageUpscaler is a versatile image processing tool designed to enhance, transfor
 - **Desktop Notifications**: Send desktop notifications upon completion of image processing tasks.
 
 <p align="center">
- <img width="350" height="500" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
+ <img width="250" height="350" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
 </p>
 
+HOW TO USE THE TOOL: [USAGE](USE.md)
 
 ## 🏆Acknowledgments
 
