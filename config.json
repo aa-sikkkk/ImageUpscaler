@@ -1,0 +1,30 @@
+{
+    "input_directory": "imageUpscaler/input_folder/",
+    "output_directory": "imageUpscaler/output/",
+    "upscale_factor": 1.0,
+    "contrast_factor": 1.0,
+    "color_factor": 1.0,
+    "watermark_text": "",
+    "watermark_position": "bottom_right",
+    "format_conversion": "JPEG",
+    "crop_settings": [
+        0,
+        0,
+        0,
+        0
+    ],
+    "resize_settings": [
+        0,
+        0
+    ],
+    "rotation_angle": 0,
+    "flip_mode": "",
+    "noise_reduction": true,
+    "histogram_equalization": true,
+    "sepia_filter": true,
+    "vignette_filter": true,
+    "face_detection": true,
+    "background_removal": false,
+    "compression_quality": 85,
+    "preserve_metadata": true
+}
