@@ -1,6 +1,12 @@
 <p align="center">
- <img width="700" height="150" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/2a8ba6a0-d59c-47eb-8a03-12245a3516d5">
+ <img height="400" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b"
 </p>
+<p align="center">
+  <img src="https://img.shields.io/github/license/aa-sikkkk/ImageUpscaler" alt="License">
+  <img src="https://img.shields.io/github/issues/aa-sikkkk/ImageUpscaler" alt="Issues">
+  <img src="https://img.shields.io/github/stars/aa-sikkkk/ImageUpscaler" alt="Stars">
+</p>
+
 
 ## ⚙️ Configuration
 
