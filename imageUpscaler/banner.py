@@ -33,4 +33,4 @@ def about():
           21. Script Configuration File.
           22. Desktop Notifications.
           23. Image Analysis and Reporting.
-          VERSION: 3.0''')
+          VERSION: 3.1''')
