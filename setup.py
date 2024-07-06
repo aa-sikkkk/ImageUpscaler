@@ -99,7 +99,7 @@ extras_require = {
 
 setup(
     name='ImageUpscaler',
-    version='2.2.7',
+    version='2.2.8',
     packages=find_packages(where='imageUpscaler'),
     package_dir={'': 'imageUpscaler'},
     include_package_data=True,
