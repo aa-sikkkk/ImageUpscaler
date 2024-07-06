@@ -39,4 +39,4 @@ jobs:
         python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
       env:
         TWINE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
-        TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.MY_TOKEN }}
