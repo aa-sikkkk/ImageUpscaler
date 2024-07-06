@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
-
 install_requires = [
     'absl-py==2.1.0',
     'addict==2.4.0',
@@ -92,7 +91,7 @@ install_requires = [
 
 setup(
     name='ImageUpscaler',
-    version='2.1.0',
+    version='2.2.1',
     packages=find_packages(where='imageUpscaler'),  # Adjusted to look in 'imageUpscaler'
     package_dir={'': 'imageUpscaler'},  # Root package directory
     include_package_data=True,
@@ -110,7 +109,7 @@ setup(
     url='https://github.com/aa-sikkkk/ImageUpscaler',
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: GPL License',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
