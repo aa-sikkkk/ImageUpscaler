@@ -13,6 +13,8 @@ install_requires = [
     'scikit-image==0.24.0',
     'scipy==1.13.1',
     'realesrgan==0.3.0'
+    'torch==2.3.1',
+    'torchvision==0.18.1',
     
 ]
 
