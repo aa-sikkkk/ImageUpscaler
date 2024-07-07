@@ -7,7 +7,6 @@ with open('README.md', 'r', encoding='utf-8') as file:
 install_requires = [
     'absl-py==2.1.0',
     'opencv-python==4.10.0.84',
-    'piexif==1.1.3',
     'pillow==10.3.0',
     'pyfiglet==1.0.2',
     'scikit-image==0.24.0',
