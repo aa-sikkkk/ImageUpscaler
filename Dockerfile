@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM python:3.11-slim AS builder
+FROM python:3.11.7 AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -16,7 +16,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Stage 2: Final stage
-FROM python:3.11-slim
+FROM python:3.11.7
 
 # Set the working directory
 WORKDIR /app

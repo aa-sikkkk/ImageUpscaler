@@ -5,16 +5,12 @@ with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
 install_requires = [
-    'absl-py==2.1.0',
     'opencv-python==4.10.0.84',
     'pillow==10.3.0',
     'pyfiglet==1.0.2',
-    'scikit-image==0.24.0',
     'scipy==1.13.1',
     'realesrgan==0.3.0'
-    'torch==2.3.1',
-    'torchvision==0.18.1',
-    
+     
 ]
 
 
