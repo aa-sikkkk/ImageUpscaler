@@ -30,6 +30,7 @@ ImageUpscaler is a versatile image processing tool designed to enhance, transfor
  <img width="250" height="350" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
 </p>
 
+## USAGE
 HOW TO USE THE TOOL: [USAGE](USE.md)
 
 ## 🏆Acknowledgments
