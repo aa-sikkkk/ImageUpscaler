@@ -1,5 +1,5 @@
 <p align="center">
- <img height="400" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b"
+ <img height="350" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b"
 </p>
 <p align="center">
   <img src="https://img.shields.io/github/license/aa-sikkkk/ImageUpscaler" alt="License">
