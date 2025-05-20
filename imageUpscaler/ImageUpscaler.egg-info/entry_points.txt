@@ -1,0 +1,3 @@
+[console_scripts]
+imageUpscaler = imageUpscaler.run:main_cli
+imageUpscaler-analyze = imageUpscaler.run:analyze_image

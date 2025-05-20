@@ -26,5 +26,14 @@
     "face_detection": true,
     "background_removal": false,
     "compression_quality": 85,
-    "preserve_metadata": true
+    "preserve_metadata": true,
+    "gpu_settings": {
+        "enabled": true,
+        "batch_size": 4,
+        "memory_limit": 0.8,
+        "optimization_level": "high",
+        "mixed_precision": true,
+        "cudnn_benchmark": true,
+        "clear_cache_after_batch": true
+    }
 }

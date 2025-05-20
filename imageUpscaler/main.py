@@ -9,7 +9,9 @@ from imageUpscaler.image_processing import *
 from imageUpscaler.filters import *
 from imageUpscaler.transformations import *
 from imageUpscaler.metadata import preserve_metadata
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
+import time
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -91,7 +93,14 @@ def process_image(img_path, config, output_directory):
     try:
         filename = os.path.basename(img_path)
         img = Image.open(img_path)
+        original_img = img.copy()
 
+        # Log GPU memory usage before processing
+        gpu_info = get_gpu_memory_info()
+        if gpu_info:
+            logging.debug(f"GPU memory before processing: {gpu_info['allocated'] / 1024**2:.2f}MB allocated")
+
+        # Basic processing
         if config["upscale_factor"] != 1.0:
             img = upscale_image(img, config["upscale_factor"])
             logging.debug(f"Upscaled image by factor: {config['upscale_factor']}")
@@ -104,9 +113,42 @@ def process_image(img_path, config, output_directory):
             img = adjust_color(img, config["color_factor"])
             logging.debug(f"Adjusted color by factor: {config['color_factor']}")
 
+        # Advanced features with GPU optimization
+        if config["advanced_features"]["ai_enhancement"]:
+            img = enhance_image_ai(img)
+            logging.debug("Applied AI enhancement")
+
+        if config["advanced_features"]["hdr_processing"]:
+            img = process_hdr(img)
+            logging.debug("Applied HDR processing")
+
+        if config["advanced_features"]["smart_sharpen"]["enabled"]:
+            img = smart_sharpen(
+                img,
+                amount=config["advanced_features"]["smart_sharpen"]["amount"],
+                radius=config["advanced_features"]["smart_sharpen"]["radius"],
+                threshold=config["advanced_features"]["smart_sharpen"]["threshold"]
+            )
+            logging.debug("Applied smart sharpening")
+
+        if config["advanced_features"]["auto_color_correction"]:
+            img = auto_color_correction(img)
+            logging.debug("Applied auto color correction")
+
+        if config["advanced_features"]["detail_enhancement"]["enabled"]:
+            img = enhance_details(
+                img,
+                strength=config["advanced_features"]["detail_enhancement"]["strength"]
+            )
+            logging.debug("Enhanced details")
+
+        # Clear GPU memory after heavy processing
+        clear_gpu_memory()
+
+        # Other processing steps
         if config["watermark_text"]:
             img = add_watermark(img, config["watermark_text"], config["watermark_position"])
-            logging.debug(f"Added watermark: {config['watermark_text']} at {config['watermark_position']}")
+            logging.debug(f"Added watermark: {config['watermark_text']}")
 
         if config["crop_settings"]:
             img = crop_image(img, *config["crop_settings"])
@@ -119,10 +161,6 @@ def process_image(img_path, config, output_directory):
         if config["flip_mode"]:
             img = flip_image(img, config["flip_mode"])
             logging.debug(f"Flipped image mode: {config['flip_mode']}")
-
-        if config["noise_reduction"]:
-            img = reduce_noise(img)
-            logging.debug("Applied noise reduction")
 
         if config["histogram_equalization"]:
             img = equalize_histogram(img)
@@ -146,26 +184,59 @@ def process_image(img_path, config, output_directory):
             img = remove_background(img)
             logging.debug("Removed background")
 
-        if config["compression_quality"] != 85:
-            img = compress_image(img, config["compression_quality"])
-            logging.debug(f"Compressed image with quality: {config['compression_quality']}")
+        # Log GPU memory usage after processing
+        gpu_info = get_gpu_memory_info()
+        if gpu_info:
+            logging.debug(f"GPU memory after processing: {gpu_info['allocated'] / 1024**2:.2f}MB allocated")
 
-        if config["preserve_meta"]:
-            img = preserve_metadata(img, img)
-            logging.debug("Preserved metadata")
+        # Output handling
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_filename = config["output_settings"]["naming_convention"].format(
+            original_name=os.path.splitext(filename)[0],
+            timestamp=timestamp
+        ) + os.path.splitext(filename)[1]
 
-        output_path = os.path.join(output_directory, filename)
-        img.save(output_path)
+        output_path = os.path.join(output_directory, output_filename)
+        
+        # Save processed image
+        img.save(output_path, quality=config["compression_quality"])
         logging.info(f"Processed and saved image: {output_path}")
 
+        # Create thumbnail if enabled
+        if config["output_settings"]["create_thumbnails"]:
+            thumbnail_size = config["output_settings"]["thumbnail_size"]
+            thumbnail = img.copy()
+            thumbnail.thumbnail(thumbnail_size)
+            thumbnail_path = os.path.join(
+                output_directory,
+                f"thumb_{output_filename}"
+            )
+            thumbnail.save(thumbnail_path)
+            logging.debug(f"Created thumbnail: {thumbnail_path}")
+
+        # Preserve original if enabled
+        if config["output_settings"]["preserve_original"]:
+            original_path = os.path.join(
+                output_directory,
+                f"original_{output_filename}"
+            )
+            original_img.save(original_path)
+            logging.debug(f"Preserved original: {original_path}")
+
+        if config["preserve_meta"]:
+            img = preserve_metadata(original_img, img)
+            logging.debug("Preserved metadata")
+
         send_notification("Image Processing", f"Processed image saved as: {output_path}")
+        return output_path
 
     except Exception as e:
-        logging.error(f"Error processing {filename}: {e}")
+        logging.error(f"Error processing image {img_path}: {e}")
+        return None
 
 def load_images_and_process(input_directory, config, output_directory):
     """
-    Load images from the input directory and process them using multiple threads.
+    Load images from the input directory and process them using multiple threads with GPU optimization.
     """
     logging.info("Loading images...")
     images = load_images(input_directory)
@@ -174,10 +245,39 @@ def load_images_and_process(input_directory, config, output_directory):
         logging.error("No images found in the input directory.")
         return
 
-    with ThreadPoolExecutor() as executor:
-        futures = [executor.submit(process_image, img_path, config, output_directory) for img_path in images]
-        for future in tqdm(futures, desc="Processing images"):
-            future.result()
+    max_workers = config["batch_processing"]["max_workers"]
+    chunk_size = config["batch_processing"]["chunk_size"]
+
+    # Process images in batches for GPU optimization
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = []
+        for i in range(0, len(images), chunk_size):
+            batch = images[i:i + chunk_size]
+            future = executor.submit(process_batch, batch, config, output_directory)
+            futures.append(future)
+
+        completed = 0
+        total = len(images)
+        
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Processing batches"):
+            result = future.result()
+            completed += len(result) if result else 0
+            if result:
+                logging.info(f"Progress: {completed}/{total} images processed")
+
+def process_batch(batch, config, output_directory):
+    """
+    Process a batch of images with GPU optimization.
+    """
+    try:
+        results = []
+        for img_path in batch:
+            result = process_image(img_path, config, output_directory)
+            results.append(result)
+        return results
+    except Exception as e:
+        logging.error(f"Error processing batch: {e}")
+        return []
 
 def main():
     """
