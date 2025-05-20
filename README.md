@@ -1,3 +1,6 @@
+# ImageUpscaler
+
+Advanced image processing and analysis package with AI-powered enhancement.
 
 <p align="center">
  <img height="350" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b">
