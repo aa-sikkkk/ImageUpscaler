@@ -114,8 +114,8 @@ def process_image(img_path, config, output_directory):
             logging.debug(f"Adjusted color by factor: {config['color_factor']}")
 
         # Advanced features with GPU optimization
-        if config["advanced_features"]["ai_enhancement"]:
-            img = enhance_image_ai(img)
+        if config["advanced_features"]["ai_enhancement"]["enabled"]:
+            img = enhance_image_ai(img, model_path=config["advanced_features"]["ai_enhancement"]["model_path"])
             logging.debug("Applied AI enhancement")
 
         if config["advanced_features"]["hdr_processing"]:

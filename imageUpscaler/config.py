@@ -28,7 +28,10 @@ default_config = {
     "compression_quality": 85,
     "preserve_metadata": True,
     "advanced_features": {
-        "ai_enhancement": False,
+        "ai_enhancement": {
+            "enabled": False,
+            "model_path": "RealESRGAN_x4plus.pth"
+        },
         "hdr_processing": False,
         "smart_sharpen": {
             "enabled": False,

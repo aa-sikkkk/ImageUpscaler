@@ -11,6 +11,8 @@ from torchvision import transforms
 import gc
 from functools import lru_cache
 import os
+from basicsr.archs.rrdbnet_arch import RRDBNet
+from realesrgan import RealESRGANer
 
 # Global device configuration
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -51,19 +53,26 @@ class ModelCache:
         ])
         self.batch_size = 4  # Default batch size for GPU processing
 
-    def get_model(self, model_name):
-        if model_name not in self.models:
-            # Load model here (placeholder for actual model loading)
-            self.models[model_name] = torch.nn.Sequential(
-                torch.nn.Conv2d(3, 64, 3, padding=1),
-                torch.nn.ReLU(),
-                torch.nn.Conv2d(64, 3, 3, padding=1)
-            ).to(DEVICE)
-            # Enable CUDA optimizations
-            if torch.cuda.is_available():
-                self.models[model_name] = torch.nn.DataParallel(self.models[model_name])
-                torch.backends.cudnn.benchmark = True
-        return self.models[model_name]
+    def get_model(self, model_path):
+        if model_path not in self.models:
+            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
+            # Use tiling to avoid OOM on CPU
+            tile = 0
+            if DEVICE.type == 'cpu':
+                tile = 256
+                
+            upsampler = RealESRGANer(
+                scale=4,
+                model_path=model_path,
+                model=model,
+                tile=tile,
+                tile_pad=10,
+                pre_pad=0,
+                half=False if DEVICE.type == 'cpu' else True,
+                device=DEVICE,
+            )
+            self.models[model_path] = upsampler
+        return self.models[model_path]
 
     def process_batch(self, images, model_name='default'):
         """Process a batch of images using GPU acceleration."""
@@ -197,22 +206,20 @@ def draw_rectangles(img, rectangles):
         draw.rectangle(((x, y), (x+w, y+h)), outline="red", width=3)
     return img
 
-def enhance_image_ai(img, model_name='default'):
-    """Apply AI-based image enhancement using deep learning with GPU support."""
+def enhance_image_ai(img, model_path='RealESRGAN_x4plus.pth'):
+    """Apply AI-based image enhancement using RealESRGAN."""
     try:
-        # Convert to tensor and move to GPU if available
-        img_tensor = model_cache.transform(img).unsqueeze(0).to(DEVICE)
+        # Convert PIL to cv2 (RGB to BGR)
+        img_np = np.array(img)
+        img_cv2 = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
         
-        # Get model and apply enhancement
-        model = model_cache.get_model(model_name)
-        with torch.no_grad():
-            enhanced = model(img_tensor)
+        # Get model and process
+        upsampler = model_cache.get_model(model_path)
+        output, _ = upsampler.enhance(img_cv2, outscale=4)
         
-        # Convert back to PIL Image
-        enhanced = enhanced.squeeze(0).cpu().numpy()
-        enhanced = np.transpose(enhanced, (1, 2, 0))
-        enhanced = np.clip(enhanced * 255, 0, 255).astype(np.uint8)
-        return Image.fromarray(enhanced)
+        # Convert back to PIL (BGR to RGB)
+        output_rgb = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+        return Image.fromarray(output_rgb)
     except Exception as e:
         logging.error(f"AI enhancement failed: {e}")
         return img

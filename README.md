@@ -1,9 +1,8 @@
-# ImageUpscaler
-
-Advanced image processing and analysis package with AI-powered enhancement.
 
 <p align="center">
  <img height="350" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b">
+ <img height="350" width="400" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/0af66753-5e4a-4322-ac35-fade40b1656b"
+
 </p>
 <p align="center">
   <img src="https://img.shields.io/github/license/aa-sikkkk/ImageUpscaler" alt="License">
@@ -42,7 +41,12 @@ ImageUpscaler is a versatile image processing tool designed to enhance, transfor
  <img width="250" height="350" src="https://github.com/aa-sikkkk/ImageUpscaler/assets/152005759/6fd814dc-02ef-4147-a30e-bded623efae1">
 </p>
 
+<<<<<<< HEAD
 ## Installation
+=======
+## USAGE
+HOW TO USE THE TOOL: [USAGE](USE.md)
+>>>>>>> 36301a84aec4ee44a439f695003a1088d535f5bd
 
 ```bash
 pip install -e .
@@ -97,12 +101,15 @@ Edit `config.json` to customize processing options, including GPU settings:
 ## 🎟️ License 
 
 This project is licensed under the [GNU General Public License](https://github.com/aa-sikkkk/ImageUpscaler/blob/master/LICENSE)
+<<<<<<< HEAD
 
 ## Author
 
 - **Aas1kk**
 - Email: workwithaa.sik@gmail.com
 - GitHub: [aa-sikkkk](https://github.com/aa-sikkkk)
+=======
+>>>>>>> 36301a84aec4ee44a439f695003a1088d535f5bd
 
 ## 🦮 Contribute 
 

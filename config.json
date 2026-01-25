@@ -27,6 +27,24 @@
     "background_removal": false,
     "compression_quality": 85,
     "preserve_metadata": true,
+    "advanced_features": {
+        "ai_enhancement": {
+            "enabled": true,
+            "model_path": "RealESRGAN_x4plus.pth"
+        },
+        "hdr_processing": false,
+        "smart_sharpen": {
+            "enabled": false,
+            "amount": 1.0,
+            "radius": 1.0,
+            "threshold": 0
+        },
+        "auto_color_correction": false,
+        "detail_enhancement": {
+            "enabled": false,
+            "strength": 1.0
+        }
+    },
     "gpu_settings": {
         "enabled": true,
         "batch_size": 4,
